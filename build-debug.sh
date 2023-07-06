@@ -3,7 +3,7 @@
 set -o nounset  # (set -u) No unset variables
 set -o errexit  # (set -e) Exit if any statement returns non-true value
 
-PROJECT_NAME="Pico6502Helper"
+PROJECT_NAME="PicoSerialLoopback"
 BUILD_DIRECTORY="build-debug"
 CMAKE_ARGS="-DCMAKE_BUILD_TYPE=Debug"
 
