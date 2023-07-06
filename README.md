@@ -1,6 +1,11 @@
 # Pico Serial Loopback
 
-TODO: Add description .... what is this for... where will it be used
+Firmware for making a [Raspberry Pi Pico](https://www.raspberrypi.com/documentation/microcontrollers/raspberry-pi-pico.html) present multiple USB CDC ports (virtual COM ports) which loopback to each other.
+
+* Port 0 loops back to port 1
+* Port 1 loops back to port 0
+* Port 2 loops back to itself
+* Port 3 loops back to itself
 
 ## Building
 
@@ -13,5 +18,5 @@ Run `build-debug.sh`
 3. Tag last commit with version number (and push tag to origin)
 4. Run `build-release.sh`
 5. Move the following files (produced by `build-release.sh`) to the Production Share:
-    1. Pico6502Helper-$VERSION.uf2
-    2. Pico6502Helper-$VERSION.txt
+    1. PicoSerialLoopback-$VERSION.uf2
+    2. PicoSerialLoopback-$VERSION.txt
