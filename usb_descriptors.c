@@ -80,6 +80,10 @@ enum
   ITF_NUM_CDC_0_DATA,
   ITF_NUM_CDC_1,
   ITF_NUM_CDC_1_DATA,
+  ITF_NUM_CDC_2,
+  ITF_NUM_CDC_2_DATA,
+  ITF_NUM_CDC_3,
+  ITF_NUM_CDC_3_DATA,
   ITF_NUM_TOTAL
 };
 
@@ -90,6 +94,14 @@ enum
 #define EPNUM_CDC_1_NOTIF   0x83
 #define EPNUM_CDC_1_OUT     0x04
 #define EPNUM_CDC_1_IN      0x84
+
+#define EPNUM_CDC_2_NOTIF   0x85
+#define EPNUM_CDC_2_OUT     0x06
+#define EPNUM_CDC_2_IN      0x86
+
+#define EPNUM_CDC_3_NOTIF   0x87
+#define EPNUM_CDC_3_OUT     0x08
+#define EPNUM_CDC_3_IN      0x88
 
 #define  CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + CFG_TUD_CDC * TUD_CDC_DESC_LEN)
 
@@ -103,6 +115,12 @@ uint8_t const desc_configuration[] =
 
   // 2nd CDC: Interface number, string index, EP notification address and size, EP data address (out, in) and size.
   TUD_CDC_DESCRIPTOR(ITF_NUM_CDC_1, 4, EPNUM_CDC_1_NOTIF, 8, EPNUM_CDC_1_OUT, EPNUM_CDC_1_IN, 64),
+
+  // 3rd CDC: Interface number, string index, EP notification address and size, EP data address (out, in) and size.
+  TUD_CDC_DESCRIPTOR(ITF_NUM_CDC_2, 4, EPNUM_CDC_2_NOTIF, 8, EPNUM_CDC_2_OUT, EPNUM_CDC_2_IN, 64),
+
+  // 4th CDC: Interface number, string index, EP notification address and size, EP data address (out, in) and size.
+  TUD_CDC_DESCRIPTOR(ITF_NUM_CDC_3, 4, EPNUM_CDC_3_NOTIF, 8, EPNUM_CDC_3_OUT, EPNUM_CDC_3_IN, 64),
 };
 
 #if TUD_OPT_HIGH_SPEED

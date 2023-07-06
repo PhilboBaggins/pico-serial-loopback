@@ -23,8 +23,13 @@ void loopbackCdcPort(uint8_t itfIncoming, uint8_t itfOutgoing)
 
 void cdc_task(void)
 {
-    loopbackCdcPort(0, 1); // Read from port 0, write to port 1
-    loopbackCdcPort(1, 0); // Read from port 1, write to port 0
+    // Loopback port 1 to port 1 and vice verse
+    loopbackCdcPort(0, 1);
+    loopbackCdcPort(1, 0);
+
+    // Loopback ports 2 and 3 to themselves
+    loopbackCdcPort(2, 2);
+    loopbackCdcPort(3, 3);
 }
 
 int main()
