@@ -25,7 +25,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(PicoSerialLoopback PicoSerialLoopback.c )
+add_executable(PicoSerialLoopback PicoSerialLoopback.c usb_descriptors.c)
 
 pico_set_program_name(PicoSerialLoopback "PicoSerialLoopback")
 pico_set_program_version(PicoSerialLoopback "0.1")
@@ -35,7 +35,11 @@ pico_enable_stdio_usb(PicoSerialLoopback 0)
 
 # Add the standard library to the build
 target_link_libraries(PicoSerialLoopback
-        pico_stdlib)
+  pico_stdlib
+  pico_unique_id
+  tinyusb_device
+  tinyusb_board
+)
 
 # Add the standard include files to the build
 target_include_directories(PicoSerialLoopback PRIVATE
@@ -44,8 +48,6 @@ target_include_directories(PicoSerialLoopback PRIVATE
 )
 
 # Add any user requested libraries
-target_link_libraries(PicoSerialLoopback
-        )
+target_link_libraries(PicoSerialLoopback)
 
 pico_add_extra_outputs(PicoSerialLoopback)
-
