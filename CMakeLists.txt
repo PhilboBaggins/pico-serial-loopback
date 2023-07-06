@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Initialise pico_sdk from installed location
 # (note this can come from environment, CMake cache etc)
-set(PICO_SDK_PATH "C:/Users/phil/Documents/Pico/pico-sdk")
+#set(PICO_SDK_PATH "/path/to/pico-sdk")
 
 set(PICO_BOARD pico CACHE STRING "Board type")
 
@@ -23,8 +23,6 @@ project(PicoSerialLoopback C CXX ASM)
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-# Add executable. Default name is the project name, version 0.1
-
 add_executable(PicoSerialLoopback PicoSerialLoopback.c usb_descriptors.c)
 
 pico_set_program_name(PicoSerialLoopback "PicoSerialLoopback")
@@ -34,7 +32,8 @@ pico_enable_stdio_uart(PicoSerialLoopback 1)
 pico_enable_stdio_usb(PicoSerialLoopback 0)
 
 # Add the standard library to the build
-target_link_libraries(PicoSerialLoopback
+target_link_libraries(
+  PicoSerialLoopback
   pico_stdlib
   pico_unique_id
   tinyusb_device
