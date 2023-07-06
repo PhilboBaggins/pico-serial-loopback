@@ -1,5 +1,3 @@
-# Generated Cmake Pico project file
-
 cmake_minimum_required(VERSION 3.13)
 
 set(CMAKE_C_STANDARD 11)
@@ -26,7 +24,7 @@ pico_sdk_init()
 add_executable(PicoSerialLoopback PicoSerialLoopback.c usb_descriptors.c)
 
 pico_set_program_name(PicoSerialLoopback "PicoSerialLoopback")
-pico_set_program_version(PicoSerialLoopback "0.1")
+pico_set_program_version(PicoSerialLoopback "1.0.0")
 
 pico_enable_stdio_uart(PicoSerialLoopback 1)
 pico_enable_stdio_usb(PicoSerialLoopback 0)
