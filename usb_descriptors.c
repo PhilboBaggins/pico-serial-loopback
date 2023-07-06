@@ -25,7 +25,6 @@
 
 #include "pico/unique_id.h"
 #include "tusb.h"
-#include "usb_descriptors.h"
 
 /* A combination of interfaces must have a unique product id, since PC will save device driver after the first plug.
  * Same VID/PID with different interface e.g MSC (first), then CDC (later) will possibly cause system error on PC.
@@ -72,47 +71,38 @@ uint8_t const * tud_descriptor_device_cb(void)
 }
 
 //--------------------------------------------------------------------+
-// HID Report Descriptor
-//--------------------------------------------------------------------+
-
-uint8_t const desc_hid_report[] =
-{
-  TUD_HID_REPORT_DESC_KEYBOARD( HID_REPORT_ID(REPORT_ID_KEYBOARD         )),
-  TUD_HID_REPORT_DESC_MOUSE   ( HID_REPORT_ID(REPORT_ID_MOUSE            )),
-  TUD_HID_REPORT_DESC_CONSUMER( HID_REPORT_ID(REPORT_ID_CONSUMER_CONTROL )),
-  TUD_HID_REPORT_DESC_GAMEPAD ( HID_REPORT_ID(REPORT_ID_GAMEPAD          ))
-};
-
-// Invoked when received GET HID REPORT DESCRIPTOR
-// Application return pointer to descriptor
-// Descriptor contents must exist long enough for transfer to complete
-uint8_t const * tud_hid_descriptor_report_cb(uint8_t instance)
-{
-  (void) instance;
-  return desc_hid_report;
-}
-
-//--------------------------------------------------------------------+
 // Configuration Descriptor
 //--------------------------------------------------------------------+
 
 enum
 {
-  ITF_NUM_HID,
+  ITF_NUM_CDC_0 = 0,
+  ITF_NUM_CDC_0_DATA,
+  ITF_NUM_CDC_1,
+  ITF_NUM_CDC_1_DATA,
   ITF_NUM_TOTAL
 };
 
-#define  CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_HID_DESC_LEN)
+#define EPNUM_CDC_0_NOTIF   0x81
+#define EPNUM_CDC_0_OUT     0x02
+#define EPNUM_CDC_0_IN      0x82
 
-#define EPNUM_HID   0x81
+#define EPNUM_CDC_1_NOTIF   0x83
+#define EPNUM_CDC_1_OUT     0x04
+#define EPNUM_CDC_1_IN      0x84
+
+#define  CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + CFG_TUD_CDC * TUD_CDC_DESC_LEN)
 
 uint8_t const desc_configuration[] =
 {
   // Config number, interface count, string index, total length, attribute, power in mA
-  TUD_CONFIG_DESCRIPTOR(1, ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP, 100),
+  TUD_CONFIG_DESCRIPTOR(1, ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, 0x00, 100),
 
-  // Interface number, string index, protocol, report descriptor len, EP In address, size & polling interval
-  TUD_HID_DESCRIPTOR(ITF_NUM_HID, 0, HID_ITF_PROTOCOL_NONE, sizeof(desc_hid_report), EPNUM_HID, CFG_TUD_HID_EP_BUFSIZE, 5)
+  // 1st CDC: Interface number, string index, EP notification address and size, EP data address (out, in) and size.
+  TUD_CDC_DESCRIPTOR(ITF_NUM_CDC_0, 4, EPNUM_CDC_0_NOTIF, 8, EPNUM_CDC_0_OUT, EPNUM_CDC_0_IN, 64),
+
+  // 2nd CDC: Interface number, string index, EP notification address and size, EP data address (out, in) and size.
+  TUD_CDC_DESCRIPTOR(ITF_NUM_CDC_1, 4, EPNUM_CDC_1_NOTIF, 8, EPNUM_CDC_1_OUT, EPNUM_CDC_1_IN, 64),
 };
 
 #if TUD_OPT_HIGH_SPEED
